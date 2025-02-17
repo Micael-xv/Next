@@ -1,4 +1,5 @@
-interface PorstPros {
+import Link from "next/link";
+export interface PostProps {
   id: number;
   title: string;
   body: string;
@@ -6,7 +7,7 @@ interface PorstPros {
 }
 
 interface ResponseProps {
-  posts: PorstPros[];
+  posts: PostProps[];
 }
 
 export default async function PostsPage() {
@@ -21,6 +22,15 @@ export default async function PostsPage() {
     console.log(data.posts)
   }
 
+  async function handleSearchUsers(formData: FormData) {
+    'use server'
+    const userId = formData.get('userId')
+
+    const response =  await fetch(`https://dummyjson.com/posts/user/${userId}`)
+    const data: ResponseProps = await response.json()
+    console.log(data)
+  }
+
   return (
     <div>
       <h1 className="text-center mt-5 mb-2 font-bold text-3xl">Todos os posts</h1>
@@ -29,11 +39,12 @@ export default async function PostsPage() {
         Buscar posts
       </button>
 
-      <form className="flex gap-2 my-4">
+      <form className="flex gap-2 my-4" action={handleSearchUsers}>
         <input 
           type="text" 
           placeholder="ID do usuário"
           className="border border-gray-200 p-2"
+          name="userId"
         />
         <button 
           className="bg-blue-500 text-white p-2"
@@ -48,6 +59,9 @@ export default async function PostsPage() {
           <div key={post.id} className="bg-gray-200 p-4 rounded-md">
             <h2 className="font-bold">{post.title}</h2>
             <p>{post.body}</p>
+            <Link href={`/posts/${post.id}`}>
+              Acessar detalhes
+            </Link>
           </div>
         ))}
       </div>
