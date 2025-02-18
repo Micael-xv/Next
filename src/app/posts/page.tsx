@@ -32,7 +32,7 @@ export default async function PostsPage() {
       cache: 'force-cache',
       // next é uma função do Next.js que permite que você defina o tempo de revalidação de uma página
       next: {
-        revalidate: 3600 
+        revalidate: 60
       }
     })
     const data: ResponseProps = await response.json()
