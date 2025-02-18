@@ -10,6 +10,8 @@ interface ResponseProps {
   posts: PostProps[];
 }
 
+export const revalidate = 60; // revalidar a cada 60 segundos
+
 export default async function PostsPage() {
   
   const response =  await fetch('https://dummyjson.com/posts')
@@ -26,7 +28,13 @@ export default async function PostsPage() {
     'use server'
     const userId = formData.get('userId')
 
-    const response =  await fetch(`https://dummyjson.com/posts/user/${userId}`)
+    const response =  await fetch(`https://dummyjson.com/posts/user/${userId}`, {
+      cache: 'force-cache',
+      // next é uma função do Next.js que permite que você defina o tempo de revalidação de uma página
+      next: {
+        revalidate: 3600 
+      }
+    })
     const data: ResponseProps = await response.json()
     console.log(data)
   }

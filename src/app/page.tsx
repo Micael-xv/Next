@@ -20,10 +20,17 @@ export const metadata: Metadata = {
   }
 }
 
+export const revalidate = 60; // revalidar a cada 60 segundos
+
 export default function Home() {
+
+  const numberRandom = Math.random() * 25;
+
   return (
     <div>
       <h1>oi</h1>
+
+      <h2 className="font-bold">Número: {numberRandom}</h2>
     </div>
   )
 }
